@@ -1,0 +1,25 @@
+stages:
+  - build
+  - release
+
+variables: 
+  CONTAINER_TEST_IMAGE: mawalu/docker-laravel-web:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: mawalu/docker-laravel-web:latest
+
+before_script:
+  - docker login -u mawalu -p $DOCKER_LOGIN
+
+build:
+  stage: build
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
