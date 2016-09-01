@@ -1,4 +1,4 @@
-FROM mawalu/docker-nginx-php
+FROM registry.gitlab.com/floggl/docker-nginx-php:latest
 
 MAINTAINER Martin Wagner <web@mawalabs.de>
 

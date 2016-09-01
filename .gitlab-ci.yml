@@ -1,13 +1,18 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
 stages:
   - build
   - release
 
 variables: 
-  CONTAINER_TEST_IMAGE: mawalu/docker-laravel-web:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: mawalu/docker-laravel-web:latest
+  CONTAINER_TEST_IMAGE: registry.gitlab.com/floggl/docker-laravel-web:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/floggl/docker-laravel-web:latest
 
 before_script:
-  - docker login -u mawalu -p $DOCKER_LOGIN
+  - docker login -u floggl-deploy-bot -p $DEPLOY_BOT_PW registry.gitlab.com
 
 build:
   stage: build
